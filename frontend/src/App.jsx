@@ -80,11 +80,12 @@ function App() {
 
     try {
       let url = "";
-      if (tab === "hotel") url = "http://localhost:4000/api/host/all-hotels";
+      if (tab === "hotel")
+        url = `${import.meta.env.VITE_API_BASE_URL}/api/host/all-hotels`;
       if (tab === "service")
-        url = "http://localhost:4000/api/services/all-services";
+        url = `${import.meta.env.VITE_API_BASE_URL}/api/services/all-services`;
       if (tab === "experience")
-        url = "http://localhost:4000/api/experiences/all-experiences";
+        url = `${import.meta.env.VITE_API_BASE_URL}/api/experiences/all-experiences`;
 
       const res = await axios.get(url, {
         params: {

@@ -37,17 +37,17 @@ const ConfirmAndPayPage = () => {
           bookingData?.time?.split(" - ")[0] || "12:00"
         }`
       : bookingData?.type === "experience"
-      ? `${bookingData?.date || ""}T${
-          bookingData?.time?.split(" - ")[0] || "12:00"
-        }`
-      : bookingData?.checkIn;
+        ? `${bookingData?.date || ""}T${
+            bookingData?.time?.split(" - ")[0] || "12:00"
+          }`
+        : bookingData?.checkIn;
 
   const rawCheckOut =
     bookingData?.type === "service"
       ? `${bookingData.date}T${bookingData.time || "00:00"}`
       : bookingData?.type === "experience"
-      ? null
-      : bookingData?.checkOut;
+        ? null
+        : bookingData?.checkOut;
 
   const [checkIn, setCheckIn] = useState(rawCheckIn);
   const [checkOut, setCheckOut] = useState(rawCheckOut);
@@ -101,7 +101,7 @@ const ConfirmAndPayPage = () => {
     ) {
       const selectedTime = checkIn.split("T")[1]?.slice(0, 5);
       const matchedSlot = item.slots.find(
-        (slot) => slot.startTime === selectedTime
+        (slot) => slot.startTime === selectedTime,
       );
 
       if (matchedSlot) {
@@ -125,7 +125,7 @@ const ConfirmAndPayPage = () => {
   const nights =
     checkIn && checkOut
       ? Math.ceil(
-          (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)
+          (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24),
         )
       : 1;
 
@@ -161,20 +161,19 @@ const ConfirmAndPayPage = () => {
     // }
 
     if (type === "hotel") {
-  const availability = await checkHotelAvailability(
-    bookingData.hotelId,
-    checkIn,
-    checkOut
-  );
+      const availability = await checkHotelAvailability(
+        bookingData.hotelId,
+        checkIn,
+        checkOut,
+      );
 
-  const available = availability.availableRooms;
-  if (rooms > available) {
-    alert(`Only ${available} rooms available for selected dates.`);
-    setLoading(false);
-    return;
-  }
-}
-
+      const available = availability.availableRooms;
+      if (rooms > available) {
+        alert(`Only ${available} rooms available for selected dates.`);
+        setLoading(false);
+        return;
+      }
+    }
 
     try {
       // const orderRes = await axios.post(
@@ -194,7 +193,7 @@ const ConfirmAndPayPage = () => {
         item?.slots?.length
       ) {
         selectedSlotTime = item.slots.find(
-          (slot) => slot.startTime === timePart
+          (slot) => slot.startTime === timePart,
         );
       }
 
@@ -232,7 +231,7 @@ const ConfirmAndPayPage = () => {
       }
 
       const options = {
-        key: "rzp_test_BfK6i6b0E5R9rg",
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: "INR",
         name: "Ghumakad",
@@ -245,7 +244,7 @@ const ConfirmAndPayPage = () => {
           //   { ...response, bookingDetails },
           //   { headers: { Authorization: `Bearer ${token}` } }
           // );
-           await verifyPayment(token, response, bookingDetails);
+          await verifyPayment(token, response, bookingDetails);
           navigate("/payment-success");
         },
         prefill: {

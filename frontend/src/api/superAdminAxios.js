@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const superAdminAxios = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 // Interceptor to add Bearer token
@@ -14,7 +14,7 @@ superAdminAxios.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 export default superAdminAxios;
